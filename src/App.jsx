@@ -28,6 +28,9 @@ import {
   VIKSIT_BHARAT_IMPACT,
   SCHOLARSHIPS_DATA,
   QUIZ_QUESTIONS,
+  SWARAJ_PILLARS,
+  SWARAJ_BADGES,
+  REGIONAL_LANGUAGES_22,
   calculateSkillGapAssessment,
   generateStudyPlan
 } from './data.js';
@@ -66,7 +69,8 @@ import {
   PieChart as PieChartIcon,
   DollarSign,
   Check,
-  X
+  X,
+  Flag
 } from 'lucide-react';
 
 // Register ChartJS modules
@@ -413,6 +417,9 @@ export default function App() {
             </button>
             <button className={`nav-btn ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
               <HelpCircle size={16} /> AI Quiz
+            </button>
+            <button className={`nav-btn ${activeTab === 'swaraj' ? 'active' : ''}`} onClick={() => setActiveTab('swaraj')}>
+              <Flag size={16} /> YuvaSwaraj
             </button>
             <button className={`nav-btn ${activeTab === 'gov' ? 'active' : ''}`} onClick={() => setActiveTab('gov')}>
               <Award size={16} /> YuvaGov Bridge
@@ -1436,6 +1443,134 @@ export default function App() {
                     </button>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ===================================================
+            SECTION: YUVASWARAJ (ATMANIRBHAR SKILLING & MICRO-CREDENTIALS)
+           =================================================== */}
+        {activeTab === 'swaraj' && (
+          <div>
+            <div className="section-header">
+              <div className="pill-tag" style={{ background: 'rgba(255, 119, 34, 0.15)', color: '#FF7722', border: '1px solid var(--border-saffron)' }}>
+                <Flag size={14} /> Swadeshi & Atmanirbhar Skilling
+              </div>
+              <h1>YuvaSwaraj Hub</h1>
+              <p style={{ maxWidth: '800px', margin: '0.5rem auto 0 auto', color: '#CBD5E1', fontSize: '1.05rem' }}>
+                Empowering India's youth with self-reliant digital competencies, vernacular AI accessibility, and NSQF-aligned micro-credentials across all 22 official Eighth Schedule languages.
+              </p>
+            </div>
+
+            {/* Swaraj Hero Banner & Readiness Score */}
+            <div className="swaraj-hero-banner" style={{ marginBottom: '2.5rem' }}>
+              <div style={{ flex: 1 }}>
+                <span className="mono-spec" style={{ color: '#00F0FF', fontSize: '0.8rem' }}>ATMANIRBHAR READINESS FRAMEWORK</span>
+                <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#F8FAFC', margin: '0.4rem 0 0.75rem 0' }}>
+                  Aatmanirbhar Skilling Score: <span style={{ color: '#10B981' }}>84 / 100</span>
+                </h2>
+                <p style={{ fontSize: '0.9rem', color: '#94A3B8', marginBottom: '1.25rem' }}>
+                  Your profile demonstrates high alignment with national self-reliance goals, strong core digital literacy, and active participation in government-recognized vocational pathways.
+                </p>
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <span className="badge-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid var(--border-emerald)' }}>
+                    ✓ Vernacular AI Ready
+                  </span>
+                  <span className="badge-pill" style={{ background: 'rgba(0, 240, 255, 0.15)', color: '#00F0FF', border: '1px solid var(--border-cyan)' }}>
+                    ✓ Swadeshi Tech Enabler
+                  </span>
+                  <span className="badge-pill" style={{ background: 'rgba(255, 119, 34, 0.15)', color: '#FF7722', border: '1px solid var(--border-saffron)' }}>
+                    ✓ NSQF Aligned Level 5
+                  </span>
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center', background: 'rgba(5, 8, 17, 0.8)', padding: '1.5rem', borderRadius: '16px', border: '1px solid var(--border-saffron)', minWidth: '220px' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: 900, color: '#FF7722', lineHeight: 1 }}>84%</div>
+                <div style={{ fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '0.35rem' }}>
+                  Swaraj Competency Index
+                </div>
+                <div style={{ height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', marginTop: '0.85rem', overflow: 'hidden' }}>
+                  <div style={{ width: '84%', height: '100%', background: 'linear-gradient(90deg, #FF7722, #10B981)' }}></div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5 Pillars of Atmanirbhar Skilling */}
+            <div style={{ marginBottom: '2.5rem' }}>
+              <div className="section-header" style={{ textAlign: 'left', marginBottom: '1.25rem' }}>
+                <div className="pill-tag"><Layers size={14} /> Core Foundation</div>
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>5 Pillars of Atmanirbhar Skilling</h2>
+                <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>National strategic priorities driving self-sufficiency in technology, education, and career development.</p>
+              </div>
+
+              <div style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', display: 'grid', gap: '1.25rem' }}>
+                {SWARAJ_PILLARS.map(pillar => (
+                  <div key={pillar.id} className="card saffron-accent" style={{ background: 'rgba(14, 22, 38, 0.85)' }}>
+                    <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem' }}>{pillar.icon}</div>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#F8FAFC', marginBottom: '0.4rem' }}>{pillar.title}</h3>
+                    <p style={{ fontSize: '0.85rem', color: '#CBD5E1', marginBottom: '0.85rem', lineHeight: 1.4 }}>{pillar.description}</p>
+                    <div style={{ fontSize: '0.75rem', color: '#00F0FF', fontWeight: 700, background: 'rgba(0, 240, 255, 0.1)', padding: '0.35rem 0.6rem', borderRadius: '6px' }}>
+                      Target: {pillar.target}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 22 Regional Languages Selector Grid */}
+            <div style={{ marginBottom: '2.5rem' }}>
+              <div className="section-header" style={{ textAlign: 'left', marginBottom: '1.25rem' }}>
+                <div className="pill-tag"><Globe size={14} /> Vernacular Inclusion</div>
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>22 Official Eighth Schedule Languages</h2>
+                <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>YuvaSetu AI bridges linguistic barriers by providing AI guidance and learning materials across all 22 official languages.</p>
+              </div>
+
+              <div className="swaraj-language-grid">
+                {REGIONAL_LANGUAGES_22.map(lang => (
+                  <div key={lang.code} className="swaraj-lang-chip">
+                    <span className="lang-script">{lang.script}</span>
+                    <span className="lang-name">{lang.name}</span>
+                    <span className="lang-region">{lang.region}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* NSQF Level Micro-Credential Badges */}
+            <div style={{ marginBottom: '2.5rem' }}>
+              <div className="section-header" style={{ textAlign: 'left', marginBottom: '1.25rem' }}>
+                <div className="pill-tag"><Award size={14} /> National Skills Qualification Framework</div>
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>NSQF Micro-Credential Badges</h2>
+                <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>Earn industry-standard, government-aligned digital badges for every milestone achieved on YuvaSetu AI.</p>
+              </div>
+
+              <div className="grid-2" style={{ gap: '1.25rem' }}>
+                {SWARAJ_BADGES.map(badge => (
+                  <div key={badge.id} className="swaraj-badge-card card" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <div style={{ fontSize: '2.5rem', background: 'rgba(5, 8, 17, 0.8)', padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-cyan)' }}>
+                      {badge.icon}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                        <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#F8FAFC' }}>{badge.title}</h4>
+                        <span style={{ fontSize: '0.7rem', background: 'rgba(255, 119, 34, 0.15)', color: '#FF7722', border: '1px solid var(--border-saffron)', padding: '0.15rem 0.5rem', borderRadius: '10px', fontWeight: 800 }}>
+                          {badge.nsqfLevel}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.82rem', color: '#94A3B8', marginBottom: '0.65rem' }}>{badge.description}</p>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#10B981', fontWeight: 700 }}>
+                          Key Skill: {badge.skill}
+                        </span>
+                        <a href={badge.verifyUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem' }}>
+                          Official Reference <ExternalLink size={12} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
