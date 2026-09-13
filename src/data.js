@@ -64,6 +64,104 @@ export const VERIFIED_GOV_SOURCES = [
 
 export const OFFICIAL_SOURCES = VERIFIED_GOV_SOURCES;
 
+// Government Scholarship & Financial Assistance Database
+export const SCHOLARSHIPS_DATA = [
+  {
+    id: "nsp_pm_usp",
+    title: "PM-USP Central Sector Scheme for College & University Students",
+    ministry: "Ministry of Education (MoE)",
+    eligibility: "Students pursuing regular UG/PG degrees with >80th percentile in Class 12",
+    benefit: "Financial assistance of ₹12,000 - ₹20,000 per annum",
+    category: "College & University",
+    officialLink: "https://scholarships.gov.in/",
+    label: "Official Government Reference"
+  },
+  {
+    id: "aicte_pragati",
+    title: "AICTE Pragati Scholarship Scheme for Girl Students",
+    ministry: "Ministry of Education & AICTE",
+    eligibility: "Girl students admitted to AICTE approved technical diploma or degree courses",
+    benefit: "₹50,000 per annum for tuition, books and learning equipment",
+    category: "Technical & Engineering",
+    officialLink: "https://www.aicte-india.org/",
+    label: "Official Government Reference"
+  },
+  {
+    id: "pm_yasasvi",
+    title: "PM-YASASVI Skilling & Education Scholarship",
+    ministry: "Ministry of Social Justice and Empowerment",
+    eligibility: "Class 9th, 11th, ITI & College learners from eligible income brackets",
+    benefit: "₹75,000 to ₹1,25,000 per annum for education & skilling support",
+    category: "School & ITI Vocational",
+    officialLink: "https://yet.nta.ac.in/",
+    label: "Official Government Reference"
+  },
+  {
+    id: "post_matric_scheme",
+    title: "National Post-Matric Scholarship Scheme",
+    ministry: "Ministry of Social Justice & Empowerment",
+    eligibility: "Students in Class 11th, 12th, ITI, Polytechnic, UG, and PG courses",
+    benefit: "100% tuition coverage and monthly maintenance allowance",
+    category: "School, ITI & Higher Education",
+    officialLink: "https://scholarships.gov.in/",
+    label: "Official Government Reference"
+  },
+  {
+    id: "pmsss_jk_ladakh",
+    title: "Prime Minister's Special Scholarship Scheme (PMSSS)",
+    ministry: "AICTE & Ministry of Education",
+    eligibility: "Students of J&K and Ladakh pursuing general, engineering, or medical degrees",
+    benefit: "Up to ₹3,00,000 per annum covering tuition, books, and hostel fees",
+    category: "Regional & Technical Degree",
+    officialLink: "https://www.aicte-india.org/pmsss",
+    label: "Official Government Reference"
+  }
+];
+
+// Interactive AI Skill Assessment Diagnostic Quiz
+export const QUIZ_QUESTIONS = [
+  {
+    id: 1,
+    category: "Problem Solving & Logic",
+    question: "If an AI algorithm takes O(n log n) time to sort 1,000 student records, which data structure optimize search queries?",
+    options: ["Linked List", "Binary Search Tree / Hash Table", "Array Stack", "Queue"],
+    correctIndex: 1,
+    explanation: "Hash Tables and BSTs allow O(1) or O(log n) lookup speeds for quick retrieval."
+  },
+  {
+    id: 2,
+    category: "Python & Data Science",
+    question: "In Python, which library is primarily used for handling multi-dimensional numerical arrays and matrix math?",
+    options: ["Pandas", "NumPy", "Matplotlib", "Requests"],
+    correctIndex: 1,
+    explanation: "NumPy provides high-performance N-dimensional array objects and array computations."
+  },
+  {
+    id: 3,
+    category: "Digital Literacy & Web Tools",
+    question: "What is the primary role of an API (Application Programming Interface) in digital applications?",
+    options: ["Designing UI graphics", "Enabling software applications to communicate and share data", "Formatting database tables", "Running CPU hardware tests"],
+    correctIndex: 1,
+    explanation: "APIs act as bridges enabling separate software systems to exchange data securely."
+  },
+  {
+    id: 4,
+    category: "Mathematics & Reasoning",
+    question: "A student improves their quiz score from 60 to 90. What is the percentage increase in their performance score?",
+    options: ["30%", "45%", "50%", "60%"],
+    correctIndex: 2,
+    explanation: "Percentage Increase = ((90 - 60) / 60) * 100 = (30 / 60) * 100 = 50%."
+  },
+  {
+    id: 5,
+    category: "AI & Future Skills Awareness",
+    question: "Under India's National Education Policy (NEP 2020), what is the key focus of NSQF (National Skills Qualifications Framework)?",
+    options: ["Standardizing academic and vocational skill levels across India", "Conducting annual written exams", "Allocating school uniforms", "Building physical sports arenas"],
+    correctIndex: 0,
+    explanation: "NSQF organizes qualifications according to a series of levels of knowledge, skills and aptitude."
+  }
+];
+
 export const EDUCATION_CATEGORIES = [
   "School Student (Class 8th - 12th)",
   "College / University Student",
