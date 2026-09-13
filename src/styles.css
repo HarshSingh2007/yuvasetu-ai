@@ -563,6 +563,86 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 
+/* YUVASWARAJ AI — ATMANIRBHAR SKILLING & SOVEREIGNTY HUB STYLES */
+.swaraj-hero-banner {
+  background: linear-gradient(135deg, rgba(255, 119, 34, 0.15) 0%, rgba(14, 22, 38, 0.95) 50%, rgba(16, 185, 129, 0.15) 100%);
+  border: 1px solid var(--border-saffron);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 0 30px rgba(255, 119, 34, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.swaraj-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #FF7722 0%, #ffffff 50%, #10B981 100%);
+}
+
+.swaraj-pillar-card {
+  background: rgba(14, 22, 38, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: all 0.25s ease;
+}
+
+.swaraj-pillar-card:hover {
+  border-color: var(--neon-cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+}
+
+.swaraj-badge-card {
+  background: rgba(5, 8, 17, 0.85);
+  border-radius: 14px;
+  padding: 1.25rem;
+  border: 1px solid var(--border-subtle);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.swaraj-badge-card.unlocked {
+  border-color: var(--neon-saffron);
+  box-shadow: 0 0 20px rgba(255, 119, 34, 0.3);
+}
+
+.swaraj-language-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.swaraj-lang-chip {
+  background: rgba(5, 8, 17, 0.8);
+  border: 1px solid var(--border-cyan);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.swaraj-lang-chip:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--neon-cyan);
+  transform: scale(1.03);
+}
+
+.swaraj-lang-chip.active {
+  background: var(--neon-saffron);
+  color: #ffffff;
+  border-color: var(--neon-saffron);
+  box-shadow: 0 0 15px rgba(255, 119, 34, 0.4);
+}
+
 /* HIGH-DENSITY COMPACT TABLE & COLUMN LAYOUT FOR INDIA EXPLORER */
 .explorer-table-container {
   background: rgba(14, 22, 38, 0.75);
