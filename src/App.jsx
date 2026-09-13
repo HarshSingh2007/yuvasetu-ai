@@ -26,6 +26,8 @@ import {
   HINDI_CAREER_GUIDANCE,
   PLATFORM_IMPACT_METRICS,
   VIKSIT_BHARAT_IMPACT,
+  SCHOLARSHIPS_DATA,
+  QUIZ_QUESTIONS,
   calculateSkillGapAssessment,
   generateStudyPlan
 } from './data.js';
@@ -57,7 +59,14 @@ import {
   Search,
   Activity,
   ExternalLink,
-  Cpu
+  Cpu,
+  HelpCircle,
+  Grid,
+  List,
+  PieChart as PieChartIcon,
+  DollarSign,
+  Check,
+  X
 } from 'lucide-react';
 
 // Register ChartJS modules
@@ -109,6 +118,36 @@ export default function App() {
 
   // Interactive Task List State for Study Plan
   const [completedTasks, setCompletedTasks] = useState([1]);
+
+  // Explorer View Mode & Feature States
+  const [explorerViewMode, setExplorerViewMode] = useState('grid'); // 'grid' (Visual HUD Cards) or 'table'
+  const [scholarshipCategoryFilter, setScholarshipCategoryFilter] = useState('All');
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+
+  const handleQuizSelect = (questionId, optionIdx) => {
+    if (!quizSubmitted) {
+      setQuizAnswers(prev => ({ ...prev, [questionId]: optionIdx }));
+    }
+  };
+
+  const handleQuizSubmit = () => {
+    let score = 0;
+    QUIZ_QUESTIONS.forEach(q => {
+      if (quizAnswers[q.id] === q.correctIndex) {
+        score += 20;
+      }
+    });
+    setQuizScore(score);
+    setQuizSubmitted(true);
+  };
+
+  const handleQuizReset = () => {
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setQuizScore(0);
+  };
 
   // Dynamic Calculation State
   const [assessmentResult, setAssessmentResult] = useState(null);
@@ -298,6 +337,51 @@ export default function App() {
     datasets: VIKSIT_BHARAT_IMPACT.impactPathwayChart.datasets
   };
 
+  // Additional Educational Analytics Charts (Pie, Doughnut, Line)
+  const demographicsPieData = {
+    labels: ['School (Class 8-12)', 'UG STEM & Tech', 'Arts, Commerce & Law', 'ITI & Vocational Trades', 'Job Seekers & Switchers'],
+    datasets: [
+      {
+        data: [35, 25, 20, 12, 8],
+        backgroundColor: ['#00F0FF', '#10B981', '#A855F7', '#FF7722', '#F59E0B']
+      }
+    ]
+  };
+
+  const subjectBalanceDoughnutData = {
+    labels: ['Math & Logical Reasoning', 'Python / Coding Syntax', 'Communication & Vernacular', 'Data Analytics & SQL', 'Domain Application'],
+    datasets: [
+      {
+        data: [30, 25, 20, 15, 10],
+        backgroundColor: ['#00F0FF', '#FF7722', '#10B981', '#A855F7', '#F59E0B']
+      }
+    ]
+  };
+
+  const languageChoicePieData = {
+    labels: ['Hindi Language Guidance', 'Regional Vernacular (Tamil/Telugu/Bengali)', 'English Language Guidance'],
+    datasets: [
+      {
+        data: [62, 23, 15],
+        backgroundColor: ['#FF7722', '#10B981', '#00F0FF']
+      }
+    ]
+  };
+
+  const skillGrowthLineData = {
+    labels: ['Baseline (Day 0)', 'Week 1', 'Week 2', 'Week 3', 'Week 4 (Day 30)'],
+    datasets: [
+      {
+        label: 'Skill Acceleration Trajectory (%)',
+        data: [35, 52, 68, 83, 94],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+        tension: 0.35,
+        fill: true
+      }
+    ]
+  };
+
   return (
     <div className="app-container">
       {/* Top Navbar */}
@@ -323,6 +407,12 @@ export default function App() {
             </button>
             <button className={`nav-btn ${activeTab === 'guide' ? 'active' : ''}`} onClick={() => setActiveTab('guide')}>
               <Briefcase size={16} /> Career Guide
+            </button>
+            <button className={`nav-btn ${activeTab === 'scholarships' ? 'active' : ''}`} onClick={() => setActiveTab('scholarships')}>
+              <DollarSign size={16} /> Scholarships
+            </button>
+            <button className={`nav-btn ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
+              <HelpCircle size={16} /> AI Quiz
             </button>
             <button className={`nav-btn ${activeTab === 'gov' ? 'active' : ''}`} onClick={() => setActiveTab('gov')}>
               <Award size={16} /> YuvaGov Bridge
@@ -476,9 +566,9 @@ export default function App() {
               </div>
             </div>
 
-            {/* Search & Filter Controls (Section 16) */}
+            {/* Search, Filter & View Mode Controls */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 {['All', 'States', 'Union Territories'].map(filter => (
                   <button
                     key={filter}
@@ -499,60 +589,99 @@ export default function App() {
                 ))}
               </div>
 
-              <div style={{ position: 'relative', width: '280px' }}>
-                <input
-                  type="text"
-                  placeholder="Search state or UT..."
-                  value={selectedStateSearch}
-                  onChange={(e) => setSelectedStateSearch(e.target.value)}
-                  className="form-control"
-                  style={{ paddingLeft: '2.2rem', fontSize: '0.88rem' }}
-                />
-                <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                {/* View Mode Toggle Button */}
+                <div style={{ display: 'flex', background: 'rgba(5, 8, 17, 0.9)', padding: '0.2rem', borderRadius: '10px', border: '1px solid var(--border-cyan)' }}>
+                  <button
+                    onClick={() => setExplorerViewMode('grid')}
+                    style={{
+                      background: explorerViewMode === 'grid' ? 'var(--neon-cyan)' : 'transparent',
+                      color: explorerViewMode === 'grid' ? '#050811' : '#94A3B8',
+                      border: 'none',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '8px',
+                      fontWeight: 800,
+                      fontSize: '0.78rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
+                    }}
+                  >
+                    <Grid size={14} /> Visual HUD Cards
+                  </button>
+                  <button
+                    onClick={() => setExplorerViewMode('table')}
+                    style={{
+                      background: explorerViewMode === 'table' ? 'var(--neon-cyan)' : 'transparent',
+                      color: explorerViewMode === 'table' ? '#050811' : '#94A3B8',
+                      border: 'none',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '8px',
+                      fontWeight: 800,
+                      fontSize: '0.78rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
+                    }}
+                  >
+                    <List size={14} /> Compact Table
+                  </button>
+                </div>
+
+                <div style={{ position: 'relative', width: '240px' }}>
+                  <input
+                    type="text"
+                    placeholder="Search state or UT..."
+                    value={selectedStateSearch}
+                    onChange={(e) => setSelectedStateSearch(e.target.value)}
+                    className="form-control"
+                    style={{ paddingLeft: '2.2rem', fontSize: '0.88rem' }}
+                  />
+                  <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+                </div>
               </div>
             </div>
 
-            {/* HIGH-DENSITY COMPACT TABLE + COLUMN LAYOUT */}
-            <div className="explorer-table-container">
-              <div className="explorer-table-header">
-                <div>Region</div>
-                <div>Education Focus</div>
-                <div>Key Skills</div>
-                <div>Language</div>
-                <div>Career Domains</div>
-                <div style={{ textAlign: 'right' }}>Action</div>
-              </div>
-              <div className="explorer-table-body">
+            {/* VISUAL HUD CARDS GRID VIEW */}
+            {explorerViewMode === 'grid' && (
+              <div className="state-hud-grid">
                 {filteredStates.length > 0 ? filteredStates.map(st => {
                   const isSelected = userStateCode === st.code;
                   return (
                     <div
                       key={st.code}
-                      className={`explorer-row ${isSelected ? 'selected' : ''}`}
+                      className={`state-hud-card ${isSelected ? 'selected' : ''}`}
                       onClick={() => setUserStateCode(st.code)}
                     >
-                      <div className="region-cell-name">
-                        <span style={{ fontSize: '1.1rem' }}>🇮🇳</span>
-                        <span style={{ fontWeight: 800 }}>{st.name}</span>
-                        <span className={`badge-type ${st.type === 'State' ? 'badge-state' : 'badge-ut'}`}>
-                          {st.type === 'State' ? 'STATE' : 'UT'}
-                        </span>
+                      <div>
+                        <div className="state-hud-card-header">
+                          <div className="state-hud-flag-title">
+                            <span style={{ fontSize: '1.25rem' }}>🇮🇳</span>
+                            <div>
+                              <div className="state-hud-name">{st.name}</div>
+                              <span className={`badge-type ${st.type === 'State' ? 'badge-state' : 'badge-ut'}`} style={{ marginTop: '0.2rem', display: 'inline-block' }}>
+                                {st.type.toUpperCase()}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="state-code-circle-badge">{st.code}</div>
+                        </div>
+
+                        <p style={{ fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '0.85rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                          {st.eduContext}
+                        </p>
+
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '0.85rem' }}>
+                          {st.keySkillAreas.slice(0, 3).map(sk => (
+                            <span key={sk} className="skill-pill-tag">{sk}</span>
+                          ))}
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#CBD5E1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {st.eduContext}
-                      </div>
-                      <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
-                        {st.keySkillAreas.slice(0, 3).map(sk => (
-                          <span key={sk} className="skill-pill-tag">{sk}</span>
-                        ))}
-                      </div>
-                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
-                        {st.primaryLanguage}
-                      </div>
-                      <div style={{ fontSize: '0.82rem', color: '#CBD5E1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {st.careerDomains.join(' • ')}
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
+
+                      <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '0.65rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 700 }}>🗣 {st.primaryLanguage.split('/')[0]}</span>
                         <button className="btn-explore-row" onClick={(e) => { e.stopPropagation(); setUserStateCode(st.code); }}>
                           Explore <ChevronRight size={12} />
                         </button>
@@ -560,12 +689,69 @@ export default function App() {
                     </div>
                   );
                 }) : (
-                  <div style={{ padding: '2rem', textAlign: 'center', color: '#94A3B8' }}>
+                  <div style={{ padding: '2rem', textAlign: 'center', color: '#94A3B8', gridColumn: '1 / -1' }}>
                     No matching state or union territory found. Try another search term.
                   </div>
                 )}
               </div>
-            </div>
+            )}
+
+            {/* HIGH-DENSITY COMPACT TABLE LAYOUT */}
+            {explorerViewMode === 'table' && (
+              <div className="explorer-table-container">
+                <div className="explorer-table-header">
+                  <div>Region</div>
+                  <div>Education Focus</div>
+                  <div>Key Skills</div>
+                  <div>Language</div>
+                  <div>Career Domains</div>
+                  <div style={{ textAlign: 'right' }}>Action</div>
+                </div>
+                <div className="explorer-table-body">
+                  {filteredStates.length > 0 ? filteredStates.map(st => {
+                    const isSelected = userStateCode === st.code;
+                    return (
+                      <div
+                        key={st.code}
+                        className={`explorer-row ${isSelected ? 'selected' : ''}`}
+                        onClick={() => setUserStateCode(st.code)}
+                      >
+                        <div className="region-cell-name">
+                          <span style={{ fontSize: '1.1rem' }}>🇮🇳</span>
+                          <span style={{ fontWeight: 800 }}>{st.name}</span>
+                          <span className={`badge-type ${st.type === 'State' ? 'badge-state' : 'badge-ut'}`}>
+                            {st.type === 'State' ? 'STATE' : 'UT'}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '0.82rem', color: '#CBD5E1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {st.eduContext}
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                          {st.keySkillAreas.slice(0, 3).map(sk => (
+                            <span key={sk} className="skill-pill-tag">{sk}</span>
+                          ))}
+                        </div>
+                        <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
+                          {st.primaryLanguage}
+                        </div>
+                        <div style={{ fontSize: '0.82rem', color: '#CBD5E1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {st.careerDomains.join(' • ')}
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <button className="btn-explore-row" onClick={(e) => { e.stopPropagation(); setUserStateCode(st.code); }}>
+                            Explore <ChevronRight size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  }) : (
+                    <div style={{ padding: '2rem', textAlign: 'center', color: '#94A3B8' }}>
+                      No matching state or union territory found. Try another search term.
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* SELECTED REGION DETAILED PANEL */}
             {selectedStateObj && (
@@ -847,7 +1033,7 @@ export default function App() {
             </div>
 
             {/* LOGICAL GROUP 4: MY NEXT STEPS & IMPACT */}
-            <div>
+            <div style={{ marginBottom: '1.5rem' }}>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#FF7722', marginBottom: '1rem' }}>MY NEXT STEPS & IMPACT</h3>
               <div className="grid-2">
                 <div className="card">
@@ -857,6 +1043,32 @@ export default function App() {
                 <div className="card">
                   <div className="card-header"><span className="card-title"><TrendingUp size={18} /> 8. Pathway Distribution</span></div>
                   <div style={{ height: '230px', display: 'flex', justifyContent: 'center' }}><Pie data={pathwayDistChartData} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#F8FAFC' } } } }} /></div>
+                </div>
+              </div>
+            </div>
+
+            {/* LOGICAL GROUP 5: NATIONAL EDUCATION ANALYTICS & INSIGHTS (PIE, DOUGHNUT, LINE CHARTS) */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#00F0FF', marginBottom: '1rem' }}>NATIONAL EDUCATION ANALYTICS & INSIGHTS</h3>
+              <div className="grid-2" style={{ gap: '1.25rem', marginBottom: '1.25rem' }}>
+                <div className="card">
+                  <div className="card-header"><span className="card-title"><PieChartIcon size={18} style={{ color: '#00F0FF' }} /> 9. Learner Stream Distribution (Pie Chart)</span></div>
+                  <div style={{ height: '230px', display: 'flex', justifyContent: 'center' }}><Pie data={demographicsPieData} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#F8FAFC' } } } }} /></div>
+                </div>
+                <div className="card">
+                  <div className="card-header"><span className="card-title"><TrendingUp size={18} style={{ color: '#FF7722' }} /> 10. Subject & Skill Balance (Doughnut Chart)</span></div>
+                  <div style={{ height: '230px', display: 'flex', justifyContent: 'center' }}><Doughnut data={subjectBalanceDoughnutData} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#F8FAFC' } } } }} /></div>
+                </div>
+              </div>
+
+              <div className="grid-2" style={{ gap: '1.25rem' }}>
+                <div className="card">
+                  <div className="card-header"><span className="card-title"><PieChartIcon size={18} style={{ color: '#10B981' }} /> 11. Vernacular Language Choice (Pie Chart)</span></div>
+                  <div style={{ height: '230px', display: 'flex', justifyContent: 'center' }}><Pie data={languageChoicePieData} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#F8FAFC' } } } }} /></div>
+                </div>
+                <div className="card">
+                  <div className="card-header"><span className="card-title"><Activity size={18} style={{ color: '#10B981' }} /> 12. 30-Day Skill Growth Trajectory (Line Graph)</span></div>
+                  <div style={{ height: '230px' }}><Line data={skillGrowthLineData} options={darkChartOptions} /></div>
                 </div>
               </div>
             </div>
@@ -1034,6 +1246,197 @@ export default function App() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ===================================================
+            SECTION: SCHOLARSHIPS & FINANCIAL ASSISTANCE FINDER
+           =================================================== */}
+        {activeTab === 'scholarships' && (
+          <div>
+            <div className="section-header">
+              <div className="pill-tag"><DollarSign size={14} /> National Financial Support</div>
+              <h1>Scholarships & Financial Assistance Finder</h1>
+              <p>Discover verified government scholarships, technical grants, and financial support for school, ITI, diploma, and university students.</p>
+            </div>
+
+            {/* Filter Pills */}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.75rem', justifyContent: 'center' }}>
+              {['All', 'College & University', 'Technical & Engineering', 'School & ITI Vocational', 'Regional & Technical Degree'].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setScholarshipCategoryFilter(cat)}
+                  style={{
+                    background: scholarshipCategoryFilter === cat ? 'var(--neon-saffron)' : 'rgba(14, 22, 38, 0.8)',
+                    color: scholarshipCategoryFilter === cat ? '#ffffff' : '#94A3B8',
+                    border: scholarshipCategoryFilter === cat ? '1px solid var(--neon-saffron)' : '1px solid var(--border-cyan)',
+                    padding: '0.45rem 1.1rem',
+                    borderRadius: '20px',
+                    fontWeight: 700,
+                    fontSize: '0.82rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Scholarships Grid */}
+            <div className="grid-2" style={{ gap: '1.25rem', marginBottom: '2.5rem' }}>
+              {SCHOLARSHIPS_DATA.filter(s => scholarshipCategoryFilter === 'All' || s.category === scholarshipCategoryFilter).map(sch => (
+                <div key={sch.id} className="scholarship-card">
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.6rem', gap: '0.5rem' }}>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#F8FAFC' }}>{sch.title}</h3>
+                      <span style={{ fontSize: '0.72rem', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid var(--border-emerald)', padding: '0.25rem 0.6rem', borderRadius: '12px', fontWeight: 800, whiteSpace: 'nowrap' }}>
+                        {sch.category}
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: '0.8rem', color: '#00F0FF', fontWeight: 700, marginBottom: '0.6rem' }}>
+                      🏛 {sch.ministry}
+                    </div>
+
+                    <div style={{ background: 'rgba(5, 8, 17, 0.7)', padding: '0.85rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', marginBottom: '0.85rem' }}>
+                      <div style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.2rem' }}>ELIGIBILITY CRITERIA</div>
+                      <p style={{ fontSize: '0.85rem', color: '#CBD5E1' }}>{sch.eligibility}</p>
+                    </div>
+
+                    <div style={{ background: 'rgba(245, 158, 11, 0.12)', padding: '0.75rem', borderRadius: '10px', border: '1px solid rgba(245, 158, 11, 0.3)', marginBottom: '1rem' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#F59E0B', fontWeight: 800 }}>FINANCIAL BENEFIT</div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#F8FAFC', marginTop: '0.15rem' }}>💰 {sch.benefit}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.5rem', borderTop: '1px solid var(--border-subtle)' }}>
+                    <span style={{ fontSize: '0.7rem', color: '#10B981', fontWeight: 700 }}>{sch.label}</span>
+                    <a href={sch.officialLink} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                      Apply / Official Portal <ExternalLink size={12} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===================================================
+            SECTION: INTERACTIVE AI SKILL DIAGNOSTIC QUIZ
+           =================================================== */}
+        {activeTab === 'quiz' && (
+          <div>
+            <div className="section-header">
+              <div className="pill-tag"><HelpCircle size={14} /> Knowledge Diagnostic Engine</div>
+              <h1>AI Skill & Knowledge Diagnostic Quiz</h1>
+              <p>Test your problem solving, logic, coding syntax, math, and AI awareness with instant feedback.</p>
+            </div>
+
+            <div className="card saffron-accent" style={{ maxWidth: '820px', margin: '0 auto 2rem auto', padding: '1.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#F8FAFC' }}>Diagnostic Skill Assessment</h3>
+                  <div style={{ fontSize: '0.85rem', color: '#94A3B8' }}>5 Multi-Domain Practice Questions</div>
+                </div>
+                {quizSubmitted ? (
+                  <div style={{ textAlign: 'right' }}>
+                    <div className="mono-spec" style={{ fontSize: '1.8rem', color: quizScore >= 60 ? '#10B981' : '#FF7722' }}>
+                      {quizScore} / 100
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: quizScore >= 60 ? '#10B981' : '#FF7722', fontWeight: 800 }}>
+                      {quizScore >= 80 ? '🌟 Excellent Competency!' : quizScore >= 60 ? '👍 Moderate Readiness' : '⚠️ Learning Gap Identified'}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="pill-tag" style={{ background: 'rgba(0, 240, 255, 0.15)', color: '#00F0FF', border: '1px solid var(--border-cyan)' }}>
+                    Progress: {Object.keys(quizAnswers).length} / 5 Answered
+                  </div>
+                )}
+              </div>
+
+              {/* Questions List */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                {QUIZ_QUESTIONS.map((q, idx) => {
+                  const selectedOpt = quizAnswers[q.id];
+                  const isCorrect = selectedOpt === q.correctIndex;
+                  return (
+                    <div key={q.id} style={{ background: 'rgba(5, 8, 17, 0.8)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-cyan)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#00F0FF', fontWeight: 800, textTransform: 'uppercase' }}>
+                          Q{idx + 1}. {q.category}
+                        </span>
+                        {quizSubmitted && (
+                          <span style={{ fontSize: '0.78rem', fontWeight: 800, color: isCorrect ? '#10B981' : '#F43F5E', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            {isCorrect ? <Check size={14} /> : <X size={14} />} {isCorrect ? 'Correct (+20)' : 'Incorrect'}
+                          </span>
+                        )}
+                      </div>
+
+                      <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#F8FAFC', marginBottom: '0.85rem' }}>
+                        {q.question}
+                      </h4>
+
+                      <div>
+                        {q.options.map((opt, oIdx) => {
+                          let optClass = 'quiz-option-btn';
+                          if (quizSubmitted) {
+                            if (oIdx === q.correctIndex) optClass += ' correct';
+                            else if (selectedOpt === oIdx) optClass += ' incorrect';
+                          } else if (selectedOpt === oIdx) {
+                            optClass += ' selected';
+                          }
+
+                          return (
+                            <button
+                              key={oIdx}
+                              className={optClass}
+                              onClick={() => handleQuizSelect(q.id, oIdx)}
+                              style={{
+                                border: !quizSubmitted && selectedOpt === oIdx ? '1px solid var(--neon-saffron)' : undefined,
+                                background: !quizSubmitted && selectedOpt === oIdx ? 'rgba(255, 119, 34, 0.15)' : undefined,
+                                color: !quizSubmitted && selectedOpt === oIdx ? '#FF7722' : undefined
+                              }}
+                            >
+                              <span>{opt}</span>
+                              {selectedOpt === oIdx && !quizSubmitted && <span style={{ fontWeight: 800 }}>✓ Selected</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {quizSubmitted && (
+                        <div style={{ marginTop: '0.75rem', padding: '0.65rem 0.85rem', background: 'rgba(0, 240, 255, 0.1)', borderLeft: '3px solid #00F0FF', borderRadius: '6px', fontSize: '0.82rem', color: '#CBD5E1' }}>
+                          💡 <strong>Explanation:</strong> {q.explanation}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {!quizSubmitted ? (
+                  <button
+                    className="btn-primary"
+                    onClick={handleQuizSubmit}
+                    disabled={Object.keys(quizAnswers).length === 0}
+                    style={{ opacity: Object.keys(quizAnswers).length === 0 ? 0.5 : 1, width: '100%', justifyContent: 'center' }}
+                  >
+                    Submit Quiz & Get AI Assessment Score →
+                  </button>
+                ) : (
+                  <div style={{ display: 'flex', gap: '1rem', width: '100%', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                    <button className="btn-secondary" onClick={handleQuizReset}>
+                      🔄 Retake Quiz
+                    </button>
+                    <button className="btn-primary" onClick={() => setActiveTab('gap')}>
+                      View Updated Skill Gap Score →
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
