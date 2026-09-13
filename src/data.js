@@ -162,6 +162,128 @@ export const QUIZ_QUESTIONS = [
   }
 ];
 
+// YuvaSwaraj AI — Atmanirbhar Skilling & Sovereignty Hub Data Model
+export const SWARAJ_PILLARS = [
+  {
+    id: "tech_sovereignty",
+    title: "Technical & AI Autonomy",
+    titleHi: "तकनीकी एवं एआई स्वावलंबन",
+    desc: "Master core programming, logical algorithms, and generative AI models to build independent software products.",
+    scoreWeight: 25,
+    icon: "Cpu"
+  },
+  {
+    id: "digital_financial",
+    title: "Digital Financial Independence",
+    titleHi: "डिजिटल वित्तीय स्वतंत्रता",
+    desc: "Understand digital banking, UPI payments, e-commerce operations, and bookkeeping for self-employed ventures.",
+    scoreWeight: 20,
+    icon: "DollarSign"
+  },
+  {
+    id: "vernacular_fluency",
+    title: "Vernacular Communication Fluency",
+    titleHi: "मातृभाषा एवं क्षेत्रीय भाषा दक्षता",
+    desc: "Communicate technical concepts effectively in Hindi and regional Indian languages to bridge local community gaps.",
+    scoreWeight: 20,
+    icon: "Globe"
+  },
+  {
+    id: "gov_pathway_sync",
+    title: "National Pathway Linkage",
+    titleHi: "राष्ट्रीय कौशल योजना लिंकेज",
+    desc: "Direct integration with Skill India Digital, National Career Service, and NSQF Level 4-7 credentials.",
+    scoreWeight: 20,
+    icon: "ShieldCheck"
+  },
+  {
+    id: "entrepreneurship",
+    title: "Self-Employment & Startup Readiness",
+    titleHi: "स्वरोजगार एवं स्टार्टअप तत्परता",
+    desc: "Ability to take freelance projects, launch micro-enterprises, or apply for PM Mudra & Startup India support.",
+    scoreWeight: 15,
+    icon: "Zap"
+  }
+];
+
+export const SWARAJ_BADGES = [
+  {
+    id: "badge_1",
+    code: "NSQF-L3",
+    title: "Swaraj Foundation Skill Badge",
+    titleHi: "स्वराज फाउंडेशन कौशल बैज",
+    nsqfLevel: "Level 3",
+    desc: "Basic computer literacy, logical reasoning, and STEM digital awareness.",
+    badgeColor: "#00F0FF",
+    unlockedAt: 40
+  },
+  {
+    id: "badge_2",
+    code: "NSQF-L4",
+    title: "Swaraj Digital Associate Badge",
+    titleHi: "स्वराज डिजिटल एसोसिएट बैज",
+    nsqfLevel: "Level 4",
+    desc: "Python coding syntax, SQL query fundamentals, and digital workflow tools.",
+    badgeColor: "#10B981",
+    unlockedAt: 60
+  },
+  {
+    id: "badge_3",
+    code: "NSQF-L5",
+    title: "Swaraj Analytics & Developer Badge",
+    titleHi: "स्वराज एनालिटिक्स एवं डेवलपर बैज",
+    nsqfLevel: "Level 5",
+    desc: "Data analytics, web framework building, and API integration mastery.",
+    badgeColor: "#A855F7",
+    unlockedAt: 75
+  },
+  {
+    id: "badge_4",
+    code: "NSQF-L6",
+    title: "Swaraj AI Specialist Badge",
+    titleHi: "स्वराज एआई विशेषज्ञ बैज",
+    nsqfLevel: "Level 6",
+    desc: "Machine learning model training, deep learning algorithms, and production deployment.",
+    badgeColor: "#FF7722",
+    unlockedAt: 88
+  },
+  {
+    id: "badge_5",
+    code: "NSQF-L7",
+    title: "Swaraj Atmanirbhar Innovator Badge",
+    titleHi: "स्वराज आत्मनिर्भर इनोवेटर बैज",
+    nsqfLevel: "Level 7",
+    desc: "End-to-end product architecture, startup creation, and national youth contribution.",
+    badgeColor: "#F59E0B",
+    unlockedAt: 95
+  }
+];
+
+export const REGIONAL_LANGUAGES_22 = [
+  { code: "hi", name: "Hindi", native: "हिन्दी" },
+  { code: "bn", name: "Bengali", native: "বাংলা" },
+  { code: "mr", name: "Marathi", native: "मराठी" },
+  { code: "te", name: "Telugu", native: "తెలుగు" },
+  { code: "ta", name: "Tamil", native: "தமிழ்" },
+  { code: "gu", name: "Gujarati", native: "ગુજરાતી" },
+  { code: "ur", name: "Urdu", native: "اُردُو" },
+  { code: "kn", name: "Kannada", native: "ಕನ್ನಡ" },
+  { code: "or", name: "Odia", native: "ଓଡ଼ିଆ" },
+  { code: "ml", name: "Malayalam", native: "മലയാളം" },
+  { code: "pa", name: "Punjabi", native: "ਪੰਜਾਬੀ" },
+  { code: "as", name: "Assamese", native: "অসমীয়া" },
+  { code: "mai", name: "Maithili", native: "मैथिली" },
+  { code: "sat", name: "Santali", native: "ᱥᱟᱱᱛᱟᱲᱤ" },
+  { code: "ks", name: "Kashmiri", native: "कॉशुर" },
+  { code: "ne", name: "Nepali", native: "नेपाली" },
+  { code: "kok", name: "Konkani", native: "कोंकणी" },
+  { code: "doi", name: "Dogri", native: "डोगरी" },
+  { code: "mni", name: "Manipuri", native: "মেতেইলোন্" },
+  { code: "brx", name: "Bodo", native: "बर'" },
+  { code: "sa", name: "Sanskrit", native: "संस्कृतम्" },
+  { code: "sd", name: "Sindhi", native: "سنڌي" }
+];
+
 export const EDUCATION_CATEGORIES = [
   "School Student (Class 8th - 12th)",
   "College / University Student",
